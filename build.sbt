@@ -13,9 +13,17 @@ lazy val microservice = Project("disa-reporting-frontend", file("."))
     // suppress warnings in generated routes files
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:msg=unused import&src=html/.*:s",
-    pipelineStages := Seq(gzip),
+    pipelineStages := Seq(gzip)
   )
   .settings(CodeCoverageSettings.settings: _*)
+
+Test / javaOptions += "-Dlogger.resource=logback-test.xml"
+Test / classLoaderLayeringStrategy := ClassLoaderLayeringStrategy.Flat
+Test / fork := true
+
+addCommandAlias("prePrChecks", ";scalafmtCheckAll;scalafmtSbtCheck")
+
+addCommandAlias("precommit", ";scalafmtAll;coverage;test;it/test;coverageReport")
 
 lazy val it = project
   .enablePlugins(PlayScala)
