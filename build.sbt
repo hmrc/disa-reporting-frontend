@@ -16,6 +16,7 @@ lazy val microservice = Project("disa-reporting-frontend", file("."))
     pipelineStages := Seq(gzip)
   )
   .settings(CodeCoverageSettings.settings: _*)
+  .settings(PlayKeys.playDefaultPort := 12108)
 
 Test / javaOptions += "-Dlogger.resource=logback-test.xml"
 Test / classLoaderLayeringStrategy := ClassLoaderLayeringStrategy.Flat
